@@ -1,0 +1,130 @@
+import java.util.Scanner;
+
+public class Stack {
+    private int[] stack;
+    private int top;
+    private int capacity;
+
+    // Constructor to initialize the stack
+    public Stack(int capacity) {
+        this.capacity = capacity;
+        stack = new int[capacity];
+        top = -1; // Indicates that the stack is empty
+    }
+
+    // Check if the stack is empty
+    public boolean isEmpty() {
+        return top == -1;
+    }
+
+    // Check if the stack is full
+    public boolean isFull() {
+        return top == capacity - 1;
+    }
+
+    // Push operation to add an element to the top of the stack
+    public void push(int data) {
+        if (isFull()) {
+            System.out.println("Stack is full. Cannot push " + data);
+            return;
+        }
+        stack[++top] = data; // Increment top and add data
+        System.out.println(data + " pushed to stack.");
+    }
+
+    // Pop operation to remove and return the top element of the stack
+    public int pop() {
+        if (isEmpty()) {
+            System.out.println("Stack is empty. Cannot pop.");
+            return Integer.MIN_VALUE; // Return a sentinel value
+        }
+        return stack[top--]; // Return top element and decrement top
+    }
+
+    // Peek operation to get the top element without removing it
+    public int peek() {
+        if (isEmpty()) {
+            System.out.println("Stack is empty.");
+            return Integer.MIN_VALUE; // Return a sentinel value
+        }
+        return stack[top]; // Return the top element
+    }
+
+    // Get the current size of the stack
+    public int size() {
+        return top + 1; // Size is top index + 1
+    }
+
+    // Display the elements in the stack
+    public void display() {
+        if (isEmpty()) {
+            System.out.println("Stack is empty.");
+            return;
+        }
+        System.out.print("Stack: ");
+        for (int i = top; i >= 0; i--) {
+            System.out.print(stack[i] + " ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the capacity of the stack: ");
+        int capacity = scanner.nextInt();
+        Stack stack = new Stack(capacity);
+
+        while (true) {
+            System.out.println("\nStack Operations Menu:");
+            System.out.println("1. Push");
+            System.out.println("2. Pop");
+            System.out.println("3. Peek");
+            System.out.println("4. Check if Stack is Empty");
+            System.out.println("5. Check if Stack is Full");
+            System.out.println("6. Display Stack");
+            System.out.println("7. Get Size of Stack");
+            System.out.println("8. Exit");
+
+            System.out.print("Choose an operation: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter the element to push: ");
+                    int data = scanner.nextInt();
+                    stack.push(data);
+                    break;
+                case 2:
+                    int poppedElement = stack.pop();
+                    if (poppedElement != Integer.MIN_VALUE) {
+                        System.out.println("Popped element: " + poppedElement);
+                    }
+                    break;
+                case 3:
+                    int peekElement = stack.peek();
+                    if (peekElement != Integer.MIN_VALUE) {
+                        System.out.println("Top element: " + peekElement);
+                    }
+                    break;
+                case 4:
+                    System.out.println(stack.isEmpty() ? "Stack is empty." : "Stack is not empty.");
+                    break;
+                case 5:
+                    System.out.println(stack.isFull() ? "Stack is full." : "Stack is not full.");
+                    break;
+                case 6:
+                    stack.display();
+                    break;
+                case 7:
+                    System.out.println("Size of stack: " + stack.size());
+                    break;
+                case 8:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}

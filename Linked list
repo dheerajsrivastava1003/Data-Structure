@@ -1,0 +1,211 @@
+import java.util.Scanner;
+public class LinkedList {
+    // Node class to represent each element of the linked list
+    static class Node {
+        int data;
+        Node next;
+        public Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+    private Node head; // Head (start) of the list
+    private int size;  // To keep track of the size of the list
+    // Constructor to initialize the linked list
+    public LinkedList() {
+        this.head = null;
+        this.size = 0;
+    }
+    // Insert at the beginning
+    public void insertAtBeginning(int data) {
+        Node newNode = new Node(data);
+        newNode.next = head;
+        head = newNode;
+        size++;
+        System.out.println(data + " inserted at the beginning.");
+    }
+    // Insert at the end
+    public void insertAtEnd(int data) {
+        Node newNode = new Node(data);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node temp = head;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            temp.next = newNode;
+        }
+        size++;
+        System.out.println(data + " inserted at the end.");
+    }
+    // Insert at a specific position (1-based index)
+    public void insertAtPosition(int data, int position) {
+        if (position < 1 || position > size + 1) {
+            System.out.println("Invalid position.");
+            return;
+        }
+        Node newNode = new Node(data);
+        if (position == 1) {
+            newNode.next = head;
+            head = newNode;
+        } else {
+            Node temp = head;
+            for (int i = 1; i < position - 1; i++) {
+                temp = temp.next;
+            }
+            newNode.next = temp.next;
+            temp.next = newNode;
+        }
+        size++;
+        System.out.println(data + " inserted at position " + position + ".");
+    }
+    // Delete from the beginning
+    public void deleteFromBeginning() {
+        if (head == null) {
+            System.out.println("List is empty.");
+            return;
+        }
+        System.out.println(head.data + " deleted from the beginning.");
+        head = head.next;
+        size--;
+    }
+
+    // Delete from the end
+    public void deleteFromEnd() {
+        if (head == null) {
+            System.out.println("List is empty.");
+            return;
+        }
+        if (head.next == null) {
+            System.out.println(head.data + " deleted from the end.");
+            head = null;
+        } else {
+            Node temp = head;
+            while (temp.next.next != null) {
+                temp = temp.next;
+            }
+            System.out.println(temp.next.data + " deleted from the end.");
+            temp.next = null;
+        }
+        size--;
+    }
+    // Delete from a specific position (1-based index)
+    public void deleteFromPosition(int position) {
+        if (position < 1 || position > size) {
+            System.out.println("Invalid position.");
+            return;
+        }
+        if (position == 1) {
+            System.out.println(head.data + " deleted from position " + position + ".");
+            head = head.next;
+        } else {
+            Node temp = head;
+            for (int i = 1; i < position - 1; i++) {
+                temp = temp.next;
+            }
+            System.out.println(temp.next.data + " deleted from position " + position + ".");
+            temp.next = temp.next.next;
+        }
+        size--;
+    }
+    // Search for an element in the list
+    public boolean search(int data) {
+        Node temp = head;
+        while (temp != null) {
+            if (temp.data == data) {
+                return true;
+            }
+            temp = temp.next;
+        }
+        return false;
+    }
+    // Display the entire list
+    public void display() {
+        if (head == null) {
+            System.out.println("List is empty.");
+            return;
+        }
+        Node temp = head;
+        System.out.print("Linked List: ");
+        while (temp != null) {
+            System.out.print(temp.data + " -> ");
+            temp = temp.next;
+        }
+        System.out.println("null");
+    }
+    // Get the size of the list
+    public int getSize() {
+        return size;
+    }
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        LinkedList list = new LinkedList();
+        while (true) {
+            System.out.println("\nLinked List Operations Menu:");
+            System.out.println("1. Insert at Beginning");
+            System.out.println("2. Insert at End");
+            System.out.println("3. Insert at Position");
+            System.out.println("4. Delete from Beginning");
+            System.out.println("5. Delete from End");
+            System.out.println("6. Delete from Position");
+            System.out.println("7. Search");
+            System.out.println("8. Display");
+            System.out.println("9. Get Size");
+            System.out.println("10. Exit");
+            System.out.print("Choose an operation: ");
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter the element to insert at the beginning: ");
+                    int dataBeginning = scanner.nextInt();
+                    list.insertAtBeginning(dataBeginning);
+                    break;
+                case 2:
+                    System.out.print("Enter the element to insert at the end: ");
+                    int dataEnd = scanner.nextInt();
+                    list.insertAtEnd(dataEnd);
+                    break;
+                case 3:
+                    System.out.print("Enter the element to insert: ");
+                    int dataPosition = scanner.nextInt();
+                    System.out.print("Enter the position to insert: ");
+                    int position = scanner.nextInt();
+                    list.insertAtPosition(dataPosition, position);
+                    break;
+                case 4:
+                    list.deleteFromBeginning();
+                    break;
+                case 5:
+                    list.deleteFromEnd();
+                    break;
+                case 6:
+                    System.out.print("Enter the position to delete from: ");
+                    int deletePosition = scanner.nextInt();
+                    list.deleteFromPosition(deletePosition);
+                    break;
+                case 7:
+                    System.out.print("Enter the element to search: ");
+                    int searchData = scanner.nextInt();
+                    if (list.search(searchData)) {
+                        System.out.println(searchData + " is found in the list.");
+                    } else {
+                        System.out.println(searchData + " is not found in the list.");
+                    }
+                    break;
+                case 8:
+                    list.display();
+                    break;
+                case 9:
+                    System.out.println("Size of the list: " + list.getSize());
+                    break;
+                case 10:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}

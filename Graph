@@ -1,0 +1,49 @@
+import java.util.*;
+
+class Graph {
+    private Map<Integer, List<Integer>> adjList;
+
+    public Graph() {
+        adjList = new HashMap<>();
+    }
+
+    public void addVertex(int v) {
+        adjList.putIfAbsent(v, new ArrayList<>());
+    }
+
+    public void addEdge(int u, int v) {
+        adjList.putIfAbsent(u, new ArrayList<>());
+        adjList.get(u).add(v);
+    }
+
+    public void removeEdge(int u, int v) {
+        List<Integer> edges = adjList.get(u);
+        if (edges != null) {
+            edges.remove(Integer.valueOf(v));
+        }
+    }
+
+    public void displayGraph() {
+        for (int node : adjList.keySet()) {
+            System.out.println("Node " + node + ": " + adjList.get(node));
+        }
+    }
+
+    public static void main(String[] args) {
+        Graph graph = new Graph();
+        graph.addVertex(1);
+        graph.addVertex(2);
+        graph.addVertex(3);
+
+        graph.addEdge(1, 2);
+        graph.addEdge(1, 3);
+        graph.addEdge(2, 3);
+
+        System.out.println("Graph:");
+        graph.displayGraph();
+
+        graph.removeEdge(1, 2);
+        System.out.println("After removing edge 1->2:");
+        graph.displayGraph();
+    }
+}
